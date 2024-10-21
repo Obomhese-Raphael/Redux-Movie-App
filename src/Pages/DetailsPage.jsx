@@ -5,10 +5,14 @@ import moment from "moment";
 import Divider from "../Components/Divider";
 import HorizontalScrollCard from "../Components/HorizontalScrollCard";
 import useFetch from "../Hooks/useFetch";
+import { useState } from "react";
+import VideoPlay from "../Components/VideoPlay";
 
 const DetailsPage = () => {
   const params = useParams();
   const imageURL = useSelector((state) => state.movieData.imageURL);
+  const [playVideo, setPlayVideo] = useState(false);
+  const [playVideoId, setPlayVideoId] = useState("");
   const { data } = useFetchDetails(`/${params.explore}/${params?.id}`);
   const { data: castData } = useFetchDetails(
     `/${params?.explore}/${params?.id}/credits`
@@ -26,8 +30,12 @@ const DetailsPage = () => {
     ?.map((el) => el?.name)
     ?.join(", ");
 
-  console.log("data: ", data);
-  console.log("Star cast", castData);
+  const handlePlayVideo = () => {
+    setPlayVideoId(data?.id);
+    setPlayVideo(true);
+    console.log(playVideoId)
+  };
+
   return (
     <div>
       <div className="w-full h-[280px] relative hidden lg:block">
@@ -46,6 +54,13 @@ const DetailsPage = () => {
             src={imageURL + data?.poster_path}
             className="h-80 w-60 object-cover rounded"
           />
+          <button
+            onClick={() => handlePlayVideo(data)}
+            className="mt-3 w-full py-2 px-4 text-center
+           bg-white text-black rounded font-bold text-lg hover:bg-gradient-to-l from-red-500 to-orange-500 hover:scale-105 transition-all"
+          >
+            Play Now
+          </button>
         </div>
 
         <div>
@@ -131,6 +146,14 @@ const DetailsPage = () => {
           media_type={params?.explore}
         />
       </div>
+
+      {playVideo && (
+        <VideoPlay
+          data={data}
+          close={() => setPlayVideo(false)}
+          media_type={params?.explore}
+        />
+      )}
     </div>
   );
 };
