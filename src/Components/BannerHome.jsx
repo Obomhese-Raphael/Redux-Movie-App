@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-undef */
 import { useEffect, useState } from "react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { useSelector } from "react-redux";
@@ -82,9 +83,9 @@ const BannerHome = () => {
                     <span> | </span>
                     <p>Views: {Number(data.popularity).toFixed(0)}</p>
                   </div>
-                  <button className="bg-white px-4 py-2 text-black font-bold rounded mt-4 hover:bg-gradient-to-l from-red-700 to-orange-500 shadow-md transition-all hover:scale-105 ">
+                  <Link to={"/"+data?.media_type+"/"+data?.id} className="bg-white px-4 py-2 text-black font-bold rounded mt-4 hover:bg-gradient-to-l from-red-700 to-orange-500 shadow-md transition-all hover:scale-105 ">
                     Play Now
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
